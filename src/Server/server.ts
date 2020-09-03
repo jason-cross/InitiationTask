@@ -92,13 +92,13 @@ export function makeServer () {
             })
             this.delete("/todo/:id/delete", (schema:any, request)=> {
                 const todoId = request.params.id
-                schema.todos.remove(todoId)
-                return {sucess:true}
+                schema.todos.find(todoId).destroy()
+                return {success:true}
 
             })
             this.post("/todo/create", (schema:any,request)=>{
                 let attrs = JSON.parse(request.requestBody)
-                return schema.todo.create(attrs)
+                return schema.todos.create(attrs)
             })
 
 

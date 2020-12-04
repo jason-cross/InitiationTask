@@ -7,7 +7,7 @@ without needing any overhead on performance.
 the page, use the FPM tag. If you're doing task 3, don't use PHP 8 yet. Some
 packages are not yet compatible with PHP 8. 
 
-#Task 1:
+# Task 1:
 Create a docker file that extends a popular language/framework/runtime that is natively supported
 by Docker (by natively, we mean the docker org themselves manage the build images eg. nodejs, php)
 
@@ -23,7 +23,7 @@ Requirements for this task:
 2. Add some code for it to do something. This can be as simple as a hello world
 3. Build that container and run it locally
 
-#Task 2:
+# Task 2:
 Write a docker compose file which has the following containers
 - any database 
 - any runtime application. You can use any language/framework you want that

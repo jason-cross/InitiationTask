@@ -1,6 +1,23 @@
 import React from 'react';
 import * as Todo from './utility/Todo';
 import './App.css';
+import {
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Paper,
+  createTheme,
+  ThemeProvider
+} from '@material-ui/core';
+
+const theme = createTheme({
+  palette: {
+    type: 'dark'
+  }
+})
 
 function App() {
   // fetch('api/users')
@@ -12,17 +29,35 @@ function App() {
   // .then(data => console.log(data)); 
 
   const todoList = Todo.useFetch();
-  
-  todoList.map((a) => {
-    console.log(a);
-  })
-  
 
   return (
     <div className="App">
-      {todoList.map((todo) => (
-        <p>{`Task ${todo.id} Assigned to User ${todo.user}: ${todo.name} - ${todo.isComplete ? 'Complete' : 'Incomplete'}`}</p>
-      ))}
+      <div className = 'wrapper'>
+        <ThemeProvider theme={theme}>
+          <TableContainer className='table-container' component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>ID</TableCell>
+                  <TableCell>Task</TableCell>
+                  <TableCell>User</TableCell>
+                  <TableCell>Complete</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {todoList.map((todo) => (
+                  <TableRow>
+                    <TableCell>{todo.id}</TableCell>
+                    <TableCell>{todo.name}</TableCell>
+                    <TableCell>{todo.user}</TableCell>
+                    <TableCell>{todo.isComplete ? 'Complete' : 'Incomplete'}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </ThemeProvider>
+      </div>
     </div>
   );
 }

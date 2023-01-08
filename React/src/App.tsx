@@ -1,63 +1,48 @@
-import React from 'react';
-import * as Todo from './utility/Todo';
+import React, { useState } from 'react';
+import * as Todo from './utility/Todos';
+import * as Users from './utility/Users';
+import TodoTable from './components/TodoTable';
 import './App.css';
 import {
-  TableContainer,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Paper,
-  createTheme,
-  ThemeProvider
-} from '@material-ui/core';
-
-const theme = createTheme({
-  palette: {
-    type: 'dark'
-  }
-})
+  SelectChangeEvent,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
+} from '@mui/material';
 
 function App() {
-  // fetch('api/users')
-  // .then(response => response.json())
-  // .then(data => console.log(data));
-
-  // fetch('api/todos')
-  // .then(response => response.json())
-  // .then(data => console.log(data)); 
-
   const todoList = Todo.useFetch();
+  const userList = Users.useFetch();
+
+  console.log(todoList);
+  console.log(userList[0]);
+
+  const [user, setUser] = useState(0);
+
+  const handleChange = (event: SelectChangeEvent<number>) => {
+    setUser(Number(event.target.value) as number);
+  }
 
   return (
     <div className="App">
-      <div className = 'wrapper'>
-        <ThemeProvider theme={theme}>
-          <TableContainer className='table-container' component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell>Task</TableCell>
-                  <TableCell>User</TableCell>
-                  <TableCell>Complete</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {todoList.map((todo) => (
-                  <TableRow>
-                    <TableCell>{todo.id}</TableCell>
-                    <TableCell>{todo.name}</TableCell>
-                    <TableCell>{todo.user}</TableCell>
-                    <TableCell>{todo.isComplete ? 'Complete' : 'Incomplete'}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </ThemeProvider>
-      </div>
+      <FormControl variant="filled">
+        <InputLabel>User</InputLabel>
+        <Select
+          value={user}
+          label="User"
+          onChange={handleChange}
+        >
+          <MenuItem value={0}>All</MenuItem>
+          {userList.map((user) => (
+            <MenuItem value={Number(user.id)}>{user.firstName} {user.lastName}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      
+
+
+      <TodoTable todoList={todoList} userList={userList} id={user.toString()}/>
     </div>
   );
 }

@@ -14,6 +14,8 @@ import {
 } from '@mui/material';
 import TaskFilter from '../Filters/TaskFilter';
 import StatusFilter from '../Filters/StatusFilter';
+import StatusSwitch from '../Inputs/StatusSwitch';
+import DeleteButton from '../Inputs/DeleteButton';
 
 
 const theme = createTheme({
@@ -23,7 +25,9 @@ const theme = createTheme({
 });
 
 interface IProps {
+  filteredData: Todo[],
   todoList: Todo[],
+  setTodoList: Function,
   userList: User[],
   user: string,
   setUser: Function
@@ -53,14 +57,21 @@ function TodoTable (props: IProps) {
                   <h1>Status</h1>
                   <StatusFilter {...props}/>
                 </TableCell>
+                <TableCell>
+                  <h1>Actions</h1>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {props.todoList.map((todo) => (
+              {props.filteredData.map((todo) => (
                 <TableRow>
                   <TableCell>{todo.user}</TableCell>
                   <TableCell>{todo.name}</TableCell>
-                  <TableCell>{todo.isComplete ? 'Complete' : 'Incomplete'}</TableCell>
+                  <TableCell>{todo.isComplete ? 'Complete': 'Incomplete'}</TableCell>
+                  <TableCell>
+                    <StatusSwitch todo={todo} {...props}/>
+                    <DeleteButton todo={todo} {...props}/>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

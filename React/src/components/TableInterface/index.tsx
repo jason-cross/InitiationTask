@@ -54,14 +54,16 @@ function TableInterface () {
     const boolStatus = (status === 'complete');
     setFilteredData(todoList.filter((todo) => {
       return todo.user.includes(username) 
-        && todo.name.includes(tasks) 
+        && todo.name.toUpperCase().includes(tasks.toUpperCase()) 
         && (allStatus || todo.isComplete === boolStatus);
     }));
-  }, [user, tasks, status]);
+  }, [user, tasks, status, todoList]);
 
 
   const props = {
-    todoList: filteredData,
+    filteredData,
+    todoList,
+    setTodoList,
     userList,
     user,
     setUser,

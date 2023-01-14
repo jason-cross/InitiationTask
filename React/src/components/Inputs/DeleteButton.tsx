@@ -1,7 +1,19 @@
 import React from 'react';
-import { IconButton } from "@mui/material";
+import { 
+  IconButton,
+  ThemeProvider,
+  createTheme
+} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Todo, User } from '../../utility/Data';
+import { Todo} from '../../utility/Data';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#ff1744'
+    }
+  }
+});
 
 interface IProps {
   todo: Todo,
@@ -19,11 +31,14 @@ function DeleteButton (props: IProps) {
   }
 
   return (
-    <IconButton
-      onClick={handleChange}
-    >
-      <DeleteIcon />
-    </IconButton>
+    <ThemeProvider theme={theme}>
+      <IconButton
+        onClick={handleChange}
+        color='primary'
+      >
+        <DeleteIcon />
+      </IconButton>
+    </ThemeProvider>
   );
 }
 

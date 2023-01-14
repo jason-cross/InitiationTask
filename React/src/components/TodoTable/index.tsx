@@ -19,7 +19,10 @@ import DeleteButton from '../Inputs/DeleteButton';
 
 const theme = createTheme({
   palette: {
-    mode: 'dark'
+    mode: 'dark',
+    primary: {
+      main: '#ff1744'
+    }
   }
 });
 
@@ -47,33 +50,33 @@ function TodoTable (props: IProps) {
           <col style={{width: '10%'}}/>
           <TableHead>
             <TableRow>
-              <TableCell>
+              <TableCell sx={{'background-color':'#4d0011'}}>
                 <h1>User</h1>
               </TableCell>
-              <TableCell>
+              <TableCell sx={{'background-color':'#4d0011'}}>
                 <h1>Task</h1>
               </TableCell>
-              <TableCell>
+              <TableCell sx={{'background-color':'#4d0011'}}>
                 <h1>Status</h1>
-              </TableCell>
-              <TableCell align='center' colSpan={2}>
+              </TableCell >
+              <TableCell sx={{'background-color':'#4d0011'}} align='center' colSpan={2}>
                 <h1>Actions</h1>
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell style={{top: 95}}>
+              <TableCell sx={{top: 95, 'background-color':'#4d0011'}}>
                 <UserFilter {...props}/>
               </TableCell>
-              <TableCell style={{top: 95}}>
+              <TableCell sx={{top: 95, 'background-color':'#4d0011'}}>
                 <TaskFilter {...props}/>
               </TableCell>
-              <TableCell style={{top: 95}}>
+              <TableCell sx={{top: 95, 'background-color':'#4d0011'}}>
                 <StatusFilter {...props}/>
               </TableCell>
-              <TableCell style={{top: 95}}>
+              <TableCell sx={{top: 95, 'background-color':'#4d0011'}}>
                 <h3>Set Complete</h3>
               </TableCell>
-              <TableCell style={{top: 95}}>
+              <TableCell sx={{top: 95, 'background-color':'#4d0011'}}>
                 <h3>Delete</h3>
               </TableCell>
             </TableRow>

@@ -80,7 +80,7 @@ function App () {
       <div className = 'table-wrapper'>
         <TodoTable {...props}/>
       </div>
-      <AddTaskModal />
+      <AddTaskModal userList={userList}/>
     </div>
   );
 }

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { User } from '../../utility/Data';
+import React, { useEffect, useState } from 'react';
+import { User, Todo } from '../../utility/Data';
 import {
   Button,
   Modal,
@@ -14,7 +14,9 @@ import {
 } from '@mui/material';
 
 interface IProps {
-  userList: User[]
+  userList: User[],
+  todoList: Todo[],
+  setTodoList: Function
 }
 
 const add_btn_style = {
@@ -22,7 +24,6 @@ const add_btn_style = {
   'right': '5%',
   'bottom': '8%',
   'text-align': 'right',
-  // 'background-color': '#4d0011'
 }
 
 const modal_style = {
@@ -54,12 +55,38 @@ const theme = createTheme({
 });
 
 function AddTaskModal(props: IProps) {
+  //Initialise use states
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  const [user, setUser] = useState('');
+  const [task, setTask] = useState('');
+  const [complete, setComplete] = useState(false);
+  const [btnDisabled, setBtnDisabled] = useState(true);
+
+  const handleOpen = () => {
+    setOpen(true);
+    setUser('');
+    setTask('');
+    setComplete(false);
+  }
+
   const handleClose = () => setOpen(false);
-  const handleSave = () => {
+
+  const handleSave = async() => {
+    //Set id of new todo item -- avoid clashes by incrementing last elements id
+    const lastIndex = Math.max(0, props.todoList.length - 1);
+    const id = props.todoList[lastIndex]?.id + 1 || 1;
+
+    //Update new todolist item
+    const todoListCopy = JSON.parse(JSON.stringify(props.todoList));
+    todoListCopy.push({id, user, name: task, isComplete: complete});
+    props.setTodoList(todoListCopy);
     setOpen(false);
   }
+
+  //Set whether the save button is enabled ensuring that all fields have been filled in
+  useEffect(() => {
+    setBtnDisabled((user && task) ? false : true);
+  }, [user, task, complete]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -79,10 +106,20 @@ function AddTaskModal(props: IProps) {
       >
         <Box sx={box_style}>
           <h1 style={{'color':'#fff'}}>Add Task</h1>
-          <TextField color='secondary' fullWidth sx={{mt: 3}} label='Task Name' variant='outlined' />
+          <TextField 
+            color='secondary' 
+            fullWidth sx={{mt: 3}} 
+            label='Task Name' 
+            variant='outlined'
+            onChange={(e) => {setTask(e.target.value)}}
+          />
           <FormControl color='secondary' sx={{mt: 5, minWidth: '50%'}}>
             <InputLabel>User</InputLabel>
-            <Select label='User'>
+            <Select 
+              label='User'
+              value={user}
+              onChange={(e) => {setUser(e.target.value)}}
+            >
               {props.userList.map(({firstName, lastName}) => (
                 <MenuItem value={`${firstName} ${lastName}`}>{`${firstName} ${lastName}`}</MenuItem>
               ))}
@@ -90,9 +127,13 @@ function AddTaskModal(props: IProps) {
           </FormControl>
           <FormControl color='secondary' sx={{position: 'absolute', mt: 5, minWidth: '30%', right: '5%'}}>
             <InputLabel>Status</InputLabel>
-            <Select label='Status'>
-              <MenuItem value={'Complete'}>Complete</MenuItem>
-              <MenuItem value={'Incomplete'}>Incomplete</MenuItem>
+            <Select 
+              label='Status'
+              value={complete}
+              onChange={(e => {setComplete(Boolean(e.target.value === 'true'))})}
+            >
+              <MenuItem value={'true'}>Complete</MenuItem>
+              <MenuItem value={'false'}>Incomplete</MenuItem>
             </Select>
           </FormControl>
           <Button
@@ -101,6 +142,7 @@ function AddTaskModal(props: IProps) {
             variant='contained' 
             onClick={handleSave}
             size='large'
+            disabled={btnDisabled}
           >
             Save
           </Button>

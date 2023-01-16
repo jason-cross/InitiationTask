@@ -10,7 +10,6 @@ import './App.css';
 import AddTaskModal from './components/Modals/AddTaskModal';
 
 function App () {
-
   //Initialise use states
   const [todoList, setTodoList] = useState<Todo[]>([]);
   const [userList, setUserList] = useState<User[]>([]);

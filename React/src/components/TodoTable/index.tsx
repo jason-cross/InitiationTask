@@ -9,22 +9,13 @@ import {
   TableRow,
   TableCell,
   Paper,
-  createTheme,
   ThemeProvider,
 } from '@mui/material';
 import TaskFilter from '../Filters/TaskFilter';
 import StatusFilter from '../Filters/StatusFilter';
-import StatusSwitch from '../Inputs/StatusSwitch';
-import DeleteButton from '../Inputs/DeleteButton';
-
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#ff1744'
-    }
-  }
-});
+import StatusSwitch from '../Actions/StatusSwitch';
+import DeleteButton from '../Actions/DeleteButton';
+import * as styles from './styles';
 
 interface IProps {
   filteredData: Todo[],
@@ -41,8 +32,8 @@ interface IProps {
 
 function TodoTable (props: IProps) {
   return (
-    <ThemeProvider theme={theme}>
-      <TableContainer className='table-container' component={Paper} sx={{ height: '70vh' }}>
+    <ThemeProvider theme={styles.theme}>
+      <TableContainer component={Paper} sx={styles.container}>
         <Table className='table' stickyHeader>
           <col style={{width: '20%'}}/>
           <col style={{width: '50%'}}/>
@@ -50,33 +41,33 @@ function TodoTable (props: IProps) {
           <col style={{width: '10%'}}/>
           <TableHead>
             <TableRow>
-              <TableCell sx={{'background-color':'#4d0011'}}>
+              <TableCell sx={styles.heading1}>
                 <h1>User</h1>
               </TableCell>
-              <TableCell sx={{'background-color':'#4d0011'}}>
+              <TableCell sx={styles.heading1}>
                 <h1>Task</h1>
               </TableCell>
-              <TableCell sx={{'background-color':'#4d0011'}}>
+              <TableCell sx={styles.heading1}>
                 <h1>Status</h1>
               </TableCell >
-              <TableCell sx={{'background-color':'#4d0011'}} align='center' colSpan={2}>
+              <TableCell sx={styles.heading1} align='center' colSpan={2}>
                 <h1>Actions</h1>
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell sx={{top: 95, 'background-color':'#4d0011'}}>
+              <TableCell sx={styles.heading2}>
                 <UserFilter {...props}/>
               </TableCell>
-              <TableCell sx={{top: 95, 'background-color':'#4d0011'}}>
+              <TableCell sx={styles.heading2}>
                 <TaskFilter {...props}/>
               </TableCell>
-              <TableCell sx={{top: 95, 'background-color':'#4d0011'}}>
+              <TableCell sx={styles.heading2}>
                 <StatusFilter {...props}/>
               </TableCell>
-              <TableCell sx={{top: 95, 'background-color':'#4d0011'}}>
+              <TableCell sx={styles.heading2}>
                 <h3>Set Complete</h3>
               </TableCell>
-              <TableCell sx={{top: 95, 'background-color':'#4d0011'}}>
+              <TableCell sx={styles.heading2}>
                 <h3>Delete</h3>
               </TableCell>
             </TableRow>

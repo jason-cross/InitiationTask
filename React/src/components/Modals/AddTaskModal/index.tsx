@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { User, Todo } from '../../utility/Data';
+import { User, Todo } from '../../../utility/Data';
 import {
   Button,
   Modal,
@@ -9,50 +9,15 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  createTheme,
   ThemeProvider
 } from '@mui/material';
+import * as styles from './styles';
 
 interface IProps {
   userList: User[],
   todoList: Todo[],
   setTodoList: Function
 }
-
-const add_btn_style = {
-  'position': 'absolute',
-  'right': '5%',
-  'bottom': '8%',
-  'text-align': 'right',
-}
-
-const modal_style = {
-  'display': 'flex',
-  'align-items': 'center',
-  'justify-content': 'center'
-}
-
-const box_style = {
-  'position': 'relative',
-  'width': '30vw',
-  'height': '50vh',
-  'bgcolor': '#212121',
-  'border': '2px solid #000',
-  'boxShadow': 24,
-  'p': 4,
-}
-
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#4d0011'
-    },
-    secondary: {
-      main: '#ff1744'
-    }
-  }
-});
 
 function AddTaskModal(props: IProps) {
   //Initialise use states
@@ -62,6 +27,7 @@ function AddTaskModal(props: IProps) {
   const [complete, setComplete] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
 
+  //Set use states to default when modal is opened
   const handleOpen = () => {
     setOpen(true);
     setUser('');
@@ -76,7 +42,7 @@ function AddTaskModal(props: IProps) {
     const lastIndex = Math.max(0, props.todoList.length - 1);
     const id = props.todoList[lastIndex]?.id + 1 || 1;
 
-    //Update new todolist item
+    //Add new todolist item
     const todoListCopy = JSON.parse(JSON.stringify(props.todoList));
     todoListCopy.push({id, user, name: task, isComplete: complete});
     props.setTodoList(todoListCopy);
@@ -89,9 +55,9 @@ function AddTaskModal(props: IProps) {
   }, [user, task, complete]);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={styles.theme}>
       <Button 
-        sx={add_btn_style} 
+        sx={styles.btn} 
         color='primary'
         variant='contained' 
         onClick={handleOpen}
@@ -100,11 +66,11 @@ function AddTaskModal(props: IProps) {
         Add Task
       </Button>
       <Modal 
-        sx={modal_style} 
+        sx={styles.modal} 
         open={open} 
         onClose={handleClose}
       >
-        <Box sx={box_style}>
+        <Box sx={styles.box}>
           <h1 style={{'color':'#fff'}}>Add Task</h1>
           <TextField 
             color='secondary' 
@@ -125,7 +91,10 @@ function AddTaskModal(props: IProps) {
               ))}
             </Select>
           </FormControl>
-          <FormControl color='secondary' sx={{position: 'absolute', mt: 5, minWidth: '30%', right: '5%'}}>
+          <FormControl 
+            color='secondary' 
+            sx={{position: 'absolute', mt: 5, minWidth: '30%', right: '5%'}}
+          >
             <InputLabel>Status</InputLabel>
             <Select 
               label='Status'
@@ -137,7 +106,7 @@ function AddTaskModal(props: IProps) {
             </Select>
           </FormControl>
           <Button
-            sx={add_btn_style}
+            sx={styles.btn}
             color='secondary'
             variant='contained' 
             onClick={handleSave}

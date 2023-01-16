@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { User, Todo } from '../../../utility/Data';
 import {
   Button,
   Modal,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Todo, User } from '../../utility/Data';
+import { Todo } from '../../utility/Data';
 import UserFilter from '../Filters/UserFilter';
 import {
   TableContainer,

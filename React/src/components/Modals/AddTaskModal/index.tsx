@@ -52,7 +52,7 @@ function AddTaskModal(props: IDisplayProps) {
   return (
     <ThemeProvider theme={styles.theme}>
       <Button 
-        sx={styles.btn} 
+        sx={styles.add_btn} 
         color='primary'
         variant='contained' 
         onClick={handleOpen}
@@ -101,7 +101,16 @@ function AddTaskModal(props: IDisplayProps) {
             </Select>
           </FormControl>
           <Button
-            sx={styles.btn}
+            sx={styles.close_button}
+            color='secondary'
+            variant='contained'
+            onClick={handleClose}
+            size='large'
+          >
+            Close
+          </Button>
+          <Button
+            sx={styles.add_btn}
             color='secondary'
             variant='contained' 
             onClick={handleSave}

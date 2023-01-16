@@ -12,11 +12,16 @@ export const theme = createTheme({
   }
 });
 
-export const btn = {
+export const add_btn = {
   'position': 'absolute',
   'right': '5%',
   'bottom': '8%',
-  'text-align': 'right',
+}
+
+export const close_button = {
+  'position': 'absolute',
+  'left': '5%',
+  'bottom': '8%',
 }
   
 export const modal = {

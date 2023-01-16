@@ -1,12 +1,8 @@
 import React from "react";
-import { Select, MenuItem, TextField } from '@mui/material';
-import {Todo, User} from '../../utility/Data';
+import { TextField } from '@mui/material';
 
 interface IProps {
-  todoList: Todo[],
-  userList: User[],
-  tasks: string,
-  setTasks: Function
+  setTaskSelection: Function
 }
 
 function TaskFilter (props: IProps) {
@@ -15,7 +11,7 @@ function TaskFilter (props: IProps) {
     id='outlined-basic'
     label='Search task'
     variant='outlined'
-    onChange={(e) => props.setTasks(e.target.value)}
+    onChange={(e) => props.setTaskSelection(e.target.value)}
     />
   )
 }

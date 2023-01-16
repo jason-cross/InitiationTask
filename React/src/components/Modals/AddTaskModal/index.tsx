@@ -11,15 +11,10 @@ import {
   MenuItem,
   ThemeProvider
 } from '@mui/material';
+import { IDisplayProps } from '../../../utility/Interfaces';
 import * as styles from './styles';
 
-interface IProps {
-  userList: User[],
-  todoList: Todo[],
-  setTodoList: Function
-}
-
-function AddTaskModal(props: IProps) {
+function AddTaskModal(props: IDisplayProps) {
   //Initialise use states
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState('');

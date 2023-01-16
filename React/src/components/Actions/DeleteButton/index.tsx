@@ -2,26 +2,12 @@ import React from 'react';
 import { 
   IconButton,
   ThemeProvider,
-  createTheme
 } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Todo} from '../../utility/Data';
+import { IActionProps } from '../../../utility/Interfaces';
+import * as styles from './styles';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#ff1744'
-    }
-  }
-});
-
-interface IProps {
-  todo: Todo,
-  todoList: Todo[],
-  setTodoList: Function
-}
-
-function DeleteButton (props: IProps) {
+function DeleteButton (props: IActionProps) {
   const handleChange = () => {
     //Update todolist to remove deleted item
     const todoListCopy = props.todoList.filter((todo) => {
@@ -31,7 +17,7 @@ function DeleteButton (props: IProps) {
   }
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={styles.theme}>
       <IconButton
         onClick={handleChange}
         color='primary'

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Todo, User } from '../../utility/Data';
 import UserFilter from '../Filters/UserFilter';
 import {
@@ -15,22 +15,29 @@ import TaskFilter from '../Filters/TaskFilter';
 import StatusFilter from '../Filters/StatusFilter';
 import StatusSwitch from '../Actions/StatusSwitch';
 import DeleteButton from '../Actions/DeleteButton';
+import { IDisplayProps } from '../../utility/Interfaces';
 import * as styles from './styles';
 
-interface IProps {
-  filteredData: Todo[],
-  todoList: Todo[],
-  setTodoList: Function,
-  userList: User[],
-  user: string,
-  setUser: Function
-  tasks: string,
-  setTasks: Function,
-  status: string,
-  setStatus: Function
-}
+function TodoTable (props: IDisplayProps) {
+  //Initialise use states for filters
+  const [filteredTodoList, setFilteredTodoList] = useState<Todo[]>([]);
+  const [userSelection, setUserSelection] = useState('all');
+  const [taskSelection, setTaskSelection] = useState('');
+  const [statusSelection, setStatusSelection] = useState('all');
 
-function TodoTable (props: IProps) {
+  //Use effect called whenever user, tasks, or status filter is changed
+  //Filters todo list to only display tasks that match selections
+  useEffect(() => {
+    const username = (userSelection === 'all') ? '' : userSelection;
+    const allStatus = (statusSelection === 'all');
+    const boolStatus = (statusSelection === 'complete');
+    setFilteredTodoList(props.todoList.filter((todo) => {
+      return todo.user.includes(username) 
+        && todo.name.toUpperCase().includes(taskSelection.toUpperCase()) 
+        && (allStatus || todo.isComplete === boolStatus);
+    }));
+  }, [userSelection, taskSelection, statusSelection, props.todoList]);
+
   return (
     <ThemeProvider theme={styles.theme}>
       <TableContainer component={Paper} sx={styles.container}>
@@ -56,13 +63,22 @@ function TodoTable (props: IProps) {
             </TableRow>
             <TableRow>
               <TableCell sx={styles.heading2}>
-                <UserFilter {...props}/>
+                <UserFilter
+                  userList={props.userList}
+                  userSelection={userSelection}
+                  setUserSelection={setUserSelection}
+                />
               </TableCell>
               <TableCell sx={styles.heading2}>
-                <TaskFilter {...props}/>
+                <TaskFilter
+                  setTaskSelection={setTaskSelection}
+                />
               </TableCell>
               <TableCell sx={styles.heading2}>
-                <StatusFilter {...props}/>
+                <StatusFilter
+                  statusSelection={statusSelection}
+                  setStatusSelection={setStatusSelection}
+                />
               </TableCell>
               <TableCell sx={styles.heading2}>
                 <h3>Set Complete</h3>
@@ -73,16 +89,24 @@ function TodoTable (props: IProps) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.filteredData.map((todo) => (
+            {filteredTodoList.map((todo) => (
               <TableRow>
                 <TableCell>{todo.user}</TableCell>
                 <TableCell>{todo.name}</TableCell>
                 <TableCell>{todo.isComplete ? 'Complete': 'Incomplete'}</TableCell>
                 <TableCell align='center'>
-                  <StatusSwitch todo={todo} {...props}/>
+                  <StatusSwitch 
+                    todo={todo}
+                    todoList={props.todoList}
+                    setTodoList={props.setTodoList}
+                  />
                 </TableCell>
                 <TableCell align='center'>
-                  <DeleteButton todo={todo} {...props}/>
+                  <DeleteButton 
+                    todo={todo}
+                    todoList={props.todoList}
+                    setTodoList={props.setTodoList}
+                  />
                 </TableCell>
               </TableRow>
             ))}

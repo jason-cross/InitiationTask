@@ -1,19 +1,16 @@
 import React from "react";
 import { Select, MenuItem } from '@mui/material';
-import {Todo, User} from '../../utility/Data';
 
 interface IProps {
-  todoList: Todo[],
-  userList: User[],
-  status: string,
-  setStatus: Function
+  statusSelection: string,
+  setStatusSelection: Function
 }
 
 function StatusFilter (props: IProps) {
   return (
     <Select
-      value={props.status}
-      onChange={(e) => props.setStatus(e.target.value)}
+      value={props.statusSelection}
+      onChange={(e) => props.setStatusSelection(e.target.value)}
     >
       <MenuItem value={'all'}>All</MenuItem>
       <MenuItem value={'complete'}>Complete</MenuItem>

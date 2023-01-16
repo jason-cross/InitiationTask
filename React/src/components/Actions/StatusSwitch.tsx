@@ -1,14 +1,8 @@
 import React from 'react';
 import { Switch } from '@mui/material';
-import { Todo, User } from '../../utility/Data';
+import { IActionProps } from '../../utility/Interfaces';
 
-interface IProps {
-  todo: Todo,
-  todoList: Todo[],
-  setTodoList: Function
-}
-
-function StatusSwitch (props: IProps) {
+function StatusSwitch (props: IActionProps) {
   const handleChange = () => {
     //Find index of current todo item
     const index = props.todoList.findIndex((todo) => {

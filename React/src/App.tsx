@@ -13,10 +13,6 @@ function App () {
   //Initialise use states
   const [todoList, setTodoList] = useState<Todo[]>([]);
   const [userList, setUserList] = useState<User[]>([]);
-  const [filteredData, setFilteredData] = useState<Todo[]>([]);
-  const [user, setUser] = useState('all');
-  const [tasks, setTasks] = useState('');
-  const [status, setStatus] = useState('all');
 
   //Use effect called once to fetch data and set use states
   useEffect(() => {
@@ -42,36 +38,15 @@ function App () {
       //Set use states
       setUserList(users);
       setTodoList(todoMerged);
-      setFilteredData(todoMerged);
     }
 
     fetchData();
   }, []);
 
-  //Use effect called whenever user, tasks, or status filter is changed
-  useEffect(() => {
-    const username = (user === 'all') ? '' : user;
-    const allStatus = (status === 'all');
-    const boolStatus = (status === 'complete');
-    setFilteredData(todoList.filter((todo) => {
-      return todo.user.includes(username) 
-        && todo.name.toUpperCase().includes(tasks.toUpperCase()) 
-        && (allStatus || todo.isComplete === boolStatus);
-    }));
-  }, [user, tasks, status, todoList]);
-
-
   const props = {
-    filteredData,
     todoList,
     setTodoList,
     userList,
-    user,
-    setUser,
-    tasks,
-    setTasks,
-    status,
-    setStatus
   }
 
   return (
@@ -79,7 +54,7 @@ function App () {
       <div className = 'table-wrapper'>
         <TodoTable {...props}/>
       </div>
-      <AddTaskModal userList={userList} todoList={todoList} setTodoList={setTodoList}/>
+      <AddTaskModal {...props}/>
     </div>
   );
 }
